@@ -1,4 +1,6 @@
 /venv/
 */__pycache__/
 *.sqlite
-bootstrap*
+/static/js/*.js
+/static/css/*.css
+/static/*/*.map
