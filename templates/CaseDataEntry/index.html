@@ -3,18 +3,5 @@
 {% block title %}All Entries{% endblock %}
 
 {% block content %}
-<table class="table">
-    <thead>
-        {% for column in columns %}
-            <th>{{ column }}</th>
-        {% endfor %}
-    </thead>
-    {% for entry in entries %}
-        <tr>
-        {% for column in columns %}
-            <td>{{ entry[column] }}</td>
-        {% endfor %}
-        </tr>
-    {% endfor %}
-</table>
+    {% include "CaseDataEntry/common/table.html" %}
 {% endblock %}

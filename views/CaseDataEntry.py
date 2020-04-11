@@ -14,7 +14,6 @@ def cases():
     query = db_session.query(CaseDataEntry)
     case_data_entries = query.order_by(asc(CaseDataEntry.timestamp)).all()
     columns = [col.name for col in case_data_entries[0].__table__.columns]
-    print(columns)
 
     return render_template("CaseDataEntry/index.html", entries=case_data_entries, columns=columns)
 
