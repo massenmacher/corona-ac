@@ -2,9 +2,15 @@
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a class="nav-link active" href="{{ url_for('dashboard.dashboard_home') }}">
                     <span></span>
-                    Dashboard <span class="sr-only">(current)</span>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('case_data.add') }}">
+                    <span></span>
+                    Add Case Numbers
                 </a>
             </li>
         </ul>
