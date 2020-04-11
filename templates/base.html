@@ -5,10 +5,13 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-<div class="offset-2 col-8">
-    {% block body %}
+{% block body %}
+    <div class="offset-2 col-8">
+    {% block content %}
+
     {% endblock %}
-</div>
+    </div>
+{% endblock %}
 
 {% include "afterloaders.html" %}
 </body>
