@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}
+Add new entry
+{% endblock %}
+
+{% block body %}
+    <h1>Add new data entry</h1>
+    <form method="post" >
+        <div class="form-group">
+            <label>
+                Date
+                <input name="date" class="form-control" type="date" value="{{ now.date() }}" required/>
+            </label>
+            <label>
+                Time
+                <input name="time" class="form-control" type="time" value="{{ now.strftime('%H:%M') }}" required/>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                Cases Region
+                <input name="cases_reg" class="form-control" type="number" value="" min=0 required/>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                Cases City
+                <input name="cases_city" class="form-control" type="number" value="" min=0 required/>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                Deaths
+                <input name="deceased" class="form-control" type="number" value="" min=0 required/>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                Recovered
+                <input name="recovered" class="form-control" type="number" value=0 min=0 />
+            </label>
+        </div>
+        <input class="btn btn-info form-control" type="submit" value="add" />
+    </form>
+{% endblock %}

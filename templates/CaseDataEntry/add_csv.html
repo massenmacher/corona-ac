@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Add by CSV{% endblock%}
+{% block body %}
+    <h1>Add new data entry</h1>
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>
+                File
+                <input name="file" class="form-control" type="file" required/>
+            </label>
+        </div>
+        <input class="btn btn-info form-control" type="submit" value="add" />
+    </form>
+{% endblock %}
