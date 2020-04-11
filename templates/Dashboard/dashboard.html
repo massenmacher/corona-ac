@@ -25,53 +25,76 @@
 
 {% block aferloaders %}
     {{ super() }}
-    <script src="{{ url_for('static', filename='js/Chart.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/moment.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
 
     <script>
         // Graphs
-      var ctx = document.getElementById('myChart')
-      // eslint-disable-next-line no-unused-vars
-      var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: [
-            'Sunday',
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday'
-          ],
-          datasets: [{
-            data: [
-              15339,
-              21345,
-              18483,
-              24003,
-              23489,
-              24092,
-              12034
-            ],
-            lineTension: 0,
-            backgroundColor: 'transparent',
-            borderColor: '#007bff',
-            borderWidth: 4,
-            pointBackgroundColor: '#007bff'
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: false
-              }
-            }]
-          },
-          legend: {
-            display: false
-          }
-        }
-      })
+        var ctx = document.getElementById('myChart')
+        // eslint-disable-next-line no-unused-vars
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: "Region",
+                    data: [
+                        {% for entry in entries %}
+                            {
+                                t: moment('{{ entry.timestamp }}'),
+                                y: {{ entry.cases_region }}
+                            },
+                        {% endfor %}
+                    ],
+                    backgroundColor: 'rgba(235, 155, 52, 0.5)',
+                },{
+                    label: "City",
+                    data: [
+                        {% for entry in entries %}
+                            {
+                                t: moment('{{ entry.timestamp }}'),
+                                y: {{ entry.cases_city }}
+                            },
+                        {% endfor %}
+                    ],
+                    backgroundColor: 'rgba(235, 211, 52, 0.5)',
+                },{
+                    label: "Deceased",
+                    data: [
+                        {% for entry in entries %}
+                            {
+                                t: moment('{{ entry.timestamp }}'),
+                                y: {{ entry.deaths }}
+                            },
+                        {% endfor %}
+                    ],
+                    backgroundColor: 'rgba(255, 0, 0, 0.5)',
+                },{
+                    label: "Recovered",
+                    data: [
+                        {% for entry in entries %}
+                            {% if entry.recovered != None %}
+                            {
+                                t: moment('{{ entry.timestamp }}'),
+                                y: {{ entry.recovered }}
+                            },
+                            {% endif %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: 'rgba(0, 255, 25, 0.5)',
+                }]},
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        },
+                    }]
+                },
+                legend: {
+                    display: true
+                }
+            }
+        })
     </script>
 {% endblock %}
