@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import render_template, Blueprint, request
+from flask import render_template, Blueprint, request, url_for
 from sqlalchemy import asc
 import pandas as pd
 
@@ -68,11 +68,13 @@ def add():
                     recovered=request.form["recovered"],
                     timestamp=datetime.fromisoformat(f"{request.form['date']}T{request.form['time']}")
                 )
-                db_session.add(entry)
-                db_session.commit()
-                return "Added", 201
+                session = db_session()
+                session.add(entry)
+                session.commit()
+                return f"Added<br><a class='btn btn-info' href={url_for('dashboard.dashboard_home')}>Back to Dashboard</a>", 201
 
             except Exception as e:
+                raise e
                 return f"Failed due to {e}", 500
 
         return "Failed. No Form data.", 400

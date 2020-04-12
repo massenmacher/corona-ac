@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 engine = None
 session = None
-db_session = scoped_session(lambda: create_session(bind=engine))
+db_session = scoped_session(lambda: sessionmaker(bind=engine)())
 
 
 Base = declarative_base()
