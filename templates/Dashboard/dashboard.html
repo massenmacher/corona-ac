@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% import "Dashboard/graph.html" as graph %}
+
 
 {% block title %}Dashboard{% endblock %}
 
@@ -10,7 +12,7 @@
                     <h1 class="h2">Dashboard</h1>
                 </div>
 
-                {% include "Dashboard/graph.html" %}
+                {{ graph.graph() }}
 
                 {% include "Dashboard/statistics.html" %}
 
@@ -25,79 +27,5 @@
     {{ super() }}
     <script src="{{ url_for('static', filename='js/moment.js') }}"></script>
     <script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
-
-    <script>
-        // Graphs
-        var ctx = document.getElementById('myChart')
-        // eslint-disable-next-line no-unused-vars
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                datasets: [{
-                    label: "Region",
-                    data: [
-                        {% for entry in entries %}
-                            {
-                                t: moment('{{ entry.timestamp }}'),
-                                y: {{ entry.cases_region }}
-                            },
-                        {% endfor %}
-                    ],
-                    backgroundColor: 'rgba(235, 155, 52, 0.5)',
-                }, {
-                    label: "City",
-                    data: [
-                        {% for entry in entries %}
-                            {
-                                t: moment('{{ entry.timestamp }}'),
-                                y: {{ entry.cases_city }}
-                            },
-                        {% endfor %}
-                    ],
-                    backgroundColor: 'rgba(235, 211, 52, 0.5)',
-                }, {
-                    label: "Deceased",
-                    data: [
-                        {% for entry in entries %}
-                            {
-                                t: moment('{{ entry.timestamp }}'),
-                                y: {{ entry.deaths }}
-                            },
-                        {% endfor %}
-                    ],
-                    backgroundColor: 'rgba(255, 0, 0, 0.5)',
-                }, {
-                    label: "Recovered",
-                    data: [
-                        {% for entry in entries %}
-                            {% if entry.recovered != None %}
-                                {
-                                    t: moment('{{ entry.timestamp }}'),
-                                    y: {{ entry.recovered }}
-                                },
-                            {% endif %}
-                        {% endfor %}
-                    ],
-                    backgroundColor: 'rgba(0, 255, 25, 0.5)',
-                }]
-            },
-            options: {
-                scales: {
-                    xAxes: [{
-                        type: 'time',
-                        time: {
-                            tooltipFormat: 'YYYY-MM-DD HH:mm',
-                            unit: 'day',
-                            displayFormats: {
-                                day: 'DD MMM'
-                            }
-                        },
-                    }]
-                },
-                legend: {
-                    display: true
-                }
-            }
-        })
-    </script>
+    {{ graph.js(entries) }}
 {% endblock %}

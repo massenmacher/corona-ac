@@ -1,0 +1,8 @@
+{% macro sidebar_link(name, target, current) %}
+    <li class="nav-item">
+        <a class="nav-link {{ 'active' if current == url_for(target) }}" href="{{ url_for(target) }}">
+            <span></span>
+            {{ name }}
+        </a>
+    </li>
+{% endmacro %}
