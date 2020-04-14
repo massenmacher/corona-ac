@@ -9,4 +9,4 @@ class CaseDataEntry(Base):
     cases_city = Column(Integer)
     deaths = Column(Integer)
     recovered = Column(Integer)
-    timestamp = Column(TIMESTAMP)
+    timestamp = Column(TIMESTAMP, unique=True)
