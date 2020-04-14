@@ -14,7 +14,8 @@
         {% include "common/sidepanel.html" %}
 
          <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-             {% block content %}{% endblock %}
+            {% include "common/alert_message.html" %}
+            {% block content %}{% endblock %}
          </main>
     </div>
 </div>
