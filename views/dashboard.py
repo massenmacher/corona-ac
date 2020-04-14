@@ -12,6 +12,4 @@ def dashboard_home():
     case_data_entries = query.order_by(asc(CaseDataEntry.timestamp)).all()
     columns = [col.name for col in case_data_entries[0].__table__.columns]
 
-    flash("Test", "error")
-
     return render_template("Dashboard/dashboard.html", entries=case_data_entries, columns=columns)
