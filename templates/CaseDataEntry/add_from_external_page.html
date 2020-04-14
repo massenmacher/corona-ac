@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+Adding Cases from external source
+{% endblock %}
+
+{% block content %}
+    <h1>Add case data from external source</h1>
+    <h2>Found data:</h2>
+    The following data was found:
+    {{ data }}
+    <div class="data">
+        {% for case in data %}
+            Date: {{ case["timestamp"] }}
+            Cases Region: {{ case["cases_region"] }}
+            Cases City: {{ case["cases_city"] }}
+            Cases Deaths: {{ case["deaths"] }}
+            Cases Recovered: {{ case["recovered"] }}
+            <br>
+            Extracted from:
+            <div class="text-muted">{{ case["orig_date_str"] }}: {{ case["orig_data_str"] }}</div>
+            <hr>
+        {% endfor %}
+    </div>
+{% endblock %}

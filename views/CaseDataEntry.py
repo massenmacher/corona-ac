@@ -5,8 +5,8 @@ import pandas as pd
 
 from DB import db_session
 from helper.debug_helper import flash_on_dev
+from helper.page_parser import fetch_and_parse_page_data
 from models.CaseDataEntry import CaseDataEntry
-
 
 case_data = Blueprint("case_data", __name__)
 
@@ -87,9 +87,27 @@ def add():
                 flash("An error occurred!", "error")
                 flash_on_dev(e, "error")
 
-                return render_template("simple_text.html", text=f"Could not add entry. Please try again!", back_to=(url_for("case_data.add"), "Back to data entry")), 500
+                return render_template("simple_text.html", text=f"Could not add entry. Please try again!",
+                                       back_to=(url_for("case_data.add"), "Back to data entry")), 500
 
         flash("Error. You did not enter any or invalid data. Please try again.", "error")
         return redirect('case_data.add'), 400
     else:
         return render_template("CaseDataEntry/add.html", form_fields=CaseDataEntry.metadata, now=datetime.now())
+
+
+@case_data.route("/cases/fetch")
+def fetch_from_page():
+    # results = fetch_and_parse_page_data()
+    results = [{'timestamp': datetime(2020, 4, 14, 10, 30), 'cases_region': '1557', 'cases_city': '785',
+                'recovered': '949', 'deaths': '52', 'orig_date_str': 'Dienstag, 14.04.2020, 10.30 Uhr',
+                'orig_data_str': 'Aktuell 1557 bestätigte Coronafälle in der StädteRegion Aachen (davon 785 in der Stadt Aachen). 949 ehemals positiv auf das Corona-Virus getestete Personen sind inzwischen wieder gesund. Bislang 52 Todesfälle.'},
+               {'timestamp': datetime(2020, 4, 13, 9, 30), 'cases_region': '1547', 'cases_city': '780',
+                'recovered': '922', 'deaths': '51', 'orig_date_str': 'Montag, 13.04.2020, 9.30 Uhr',
+                'orig_data_str': 'Aktuell 1547 bestätigte Coronafälle in der StädteRegion Aachen (davon 780 in der Stadt Aachen). 922 ehemals positiv auf das Corona-Virus getestete Personen sind inzwischen wieder gesund. Bislang 51 Todesfälle.'}]
+
+    if results is None or len(results) == 0:
+        flash("No data received")
+        return render_template("simple_text.html", text="No data found")
+
+    return render_template("CaseDataEntry/add_from_external_page.html", data=results)
