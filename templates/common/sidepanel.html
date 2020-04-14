@@ -4,6 +4,7 @@
         <ul class="nav flex-column">
             {{ panel_generator.sidebar_link("Dashboard", 'dashboard.dashboard_home', request.path) }}
             {{ panel_generator.sidebar_link("Add Case Numbers", 'case_data.add', request.path) }}
+            {{ panel_generator.sidebar_link("Import from CSV", 'case_data.add_csv', request.path) }}
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Sources</span>
