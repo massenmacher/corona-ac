@@ -1,10 +1,12 @@
 from datetime import datetime
-from flask import render_template, Blueprint, request, url_for
+from flask import render_template, Blueprint, request, url_for, flash, redirect
 from sqlalchemy import asc
 import pandas as pd
 
-from DB import db_session, session
+from DB import db_session
+from helper.debug_helper import flash_on_dev
 from models.CaseDataEntry import CaseDataEntry
+
 
 case_data = Blueprint("case_data", __name__)
 
@@ -47,13 +49,18 @@ def add_csv():
 
                 db_session.add_all(entries)
                 db_session.commit()
-                return "Success", 201
+
+                flash("Success", "success")
+                return render_template("simple_text.html", html="Import successfull."), 201
 
             except Exception as e:
-                raise e
-                return f"Could not add. BC: {e}", 500
+                message = f"Data import was not successful. Something went wrong. Please try again."
+                flash(message, "error")
+                flash_on_dev(e, "error")
+                return render_template("simple_text.html", text=message), 500
 
-        return str(request.files) #TODO: Edit this
+        flash("Oooops. There went something wrong. Please try again.", 500)
+        return redirect("case_data.add_csv"), 500
 
 
 @case_data.route('/cases/add', methods=['GET', 'POST'])
@@ -71,11 +78,18 @@ def add():
                 session = db_session()
                 session.add(entry)
                 session.commit()
-                return render_template("simple_text.html", html=f"Added<br><a class='btn btn-info' href={url_for('dashboard.dashboard_home')}>Back to Dashboard</a>"), 201
+
+                flash("Data successfully added.")
+
+                return render_template("simple_text.html", text=f"Data entry successfully added."), 201
 
             except Exception as e:
-                return render_template("simple_text.html", html=f"Failed due to {e}"), 500
+                flash("An error occurred!", "error")
+                flash_on_dev(e, "error")
 
-        return render_template("simple_text.html", html="Failed. No Form data."), 400
+                return render_template("simple_text.html", text=f"Could not add entry. Please try again!", back_to=(url_for("case_data.add"), "Back to data entry")), 500
+
+        flash("Error. You did not enter any or invalid data. Please try again.", "error")
+        return redirect('case_data.add'), 400
     else:
         return render_template("CaseDataEntry/add.html", form_fields=CaseDataEntry.metadata, now=datetime.now())

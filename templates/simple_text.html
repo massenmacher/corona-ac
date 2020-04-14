@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 
-{% block body %}
-    {% if html %}
-        {{ html }}
-    {% else %}
-        <a href="/" class="btn btn-info">Home</a>
+{% block content %}
+    {% if text %}
+        <div class="">
+            {{ text }}
+        </div>
     {% endif %}
+    <div>
+        {% if back_to %}
+            <a href="{{ back_to[0] }}" class="btn btn-primary">{{ back_to[1] }}</a>
+        {% else %}
+
+            <a href="{{ url_for('dashboard.dashboard_home') }}" class="btn btn-primary">Dashboard Home</a>
+        {% endif %}
+    </div>
 {% endblock %}
