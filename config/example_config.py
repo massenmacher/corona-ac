@@ -1,0 +1,2 @@
+SECRET_KEY="IM_VERY_SECRET_CHANGE_ME!"
+SQLALCHEMY_DATABASE_URI='sqlite:///data/corona_ac.sqlite'

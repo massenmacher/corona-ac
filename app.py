@@ -7,18 +7,17 @@ from views.CaseDataEntry import case_data
 from models.Base import Base
 from models.CaseDataEntry import CaseDataEntry
 
-CONFIG = {
-    'SQLALCHEMY_DATABASE_URI': 'sqlite:///data/corona_ac.sqlite'
-}
-
 app = Flask(__name__)
+app.config.from_pyfile('config/example_config.py')
+app.config.from_pyfile('config/app_config.py')
+print(app.config)
 # Init SQLAlchemy
 # engine = create_engine(CONFIG['SQLALCHEMY_DATABASE_URI'], connect_args={'check_same_thread': False})
 # Base.metadata.create_all(engine)
 # Session = sessionmaker(bind=engine)
 # session = Session()
 # # Base.query = db_session.query_property()
-DB.init_engine(CONFIG['SQLALCHEMY_DATABASE_URI'])
+DB.init_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 DB.init_session()
 
 
