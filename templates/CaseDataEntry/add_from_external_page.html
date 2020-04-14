@@ -1,22 +1,53 @@
 {% extends "base.html" %}
 
 {% block title %}
-Adding Cases from external source
+    Adding Cases from external source
 {% endblock %}
 
 {% block content %}
     <h1>Add case data from external source</h1>
     <h2>Found data:</h2>
     The following data was found:
-    {{ data }}
     <div class="data">
         {% for case in data %}
-            Date: {{ case["timestamp"] }}
-            Cases Region: {{ case["cases_region"] }}
-            Cases City: {{ case["cases_city"] }}
-            Cases Deaths: {{ case["deaths"] }}
-            Cases Recovered: {{ case["recovered"] }}
-            <br>
+            <form target="_blank" method="post" action="{{ url_for("case_data.add") }}">
+                <div class="form-row justify-content-between" style="margin-left: 0; margin-right: 0">
+                    <label for="date">
+                        Date
+                        <input name="date" class="form-control" type="date" value="{{ case["timestamp"].date() }}"
+                               required readonly/>
+                    </label>
+                    <label for="time">
+                        Time
+                        <input name="time" class="form-control" type="time"
+                               value="{{ case["timestamp"].strftime('%H:%M') }}" required readonly/>
+                    </label>
+                    <label>
+                        Cases Region
+                        <input name="cases_reg" class="form-control" type="number" value="{{ case["cases_region"] }}"
+                               min=0 required readonly/>
+                    </label>
+                    <label>
+                        Cases City
+                        <input name="cases_city" class="form-control" type="number" value="{{ case["cases_city"] }}"
+                               min=0 required readonly/>
+                    </label>
+                    <label>
+                        Deaths
+                        <input name="deceased" class="form-control" type="number" value="{{ case["deaths"] }}" min=0
+                               required readonly/>
+                    </label>
+                    <label>
+                        Recovered
+                        <input name="recovered" class="form-control" type="number" value="{{ case["recovered"] }}" min=0
+                               readonly/>
+                    </label>
+                    <label for="submit">
+                        &nbsp;
+                        <button name="submit" class="btn btn-primary form-control" type="submit">add</button>
+                    </label>
+                </div>
+            </form>
             Extracted from:
             <div class="text-muted">{{ case["orig_date_str"] }}: {{ case["orig_data_str"] }}</div>
             <hr>

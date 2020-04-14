@@ -98,13 +98,7 @@ def add():
 
 @case_data.route("/cases/fetch")
 def fetch_from_page():
-    # results = fetch_and_parse_page_data()
-    results = [{'timestamp': datetime(2020, 4, 14, 10, 30), 'cases_region': '1557', 'cases_city': '785',
-                'recovered': '949', 'deaths': '52', 'orig_date_str': 'Dienstag, 14.04.2020, 10.30 Uhr',
-                'orig_data_str': 'Aktuell 1557 bestätigte Coronafälle in der StädteRegion Aachen (davon 785 in der Stadt Aachen). 949 ehemals positiv auf das Corona-Virus getestete Personen sind inzwischen wieder gesund. Bislang 52 Todesfälle.'},
-               {'timestamp': datetime(2020, 4, 13, 9, 30), 'cases_region': '1547', 'cases_city': '780',
-                'recovered': '922', 'deaths': '51', 'orig_date_str': 'Montag, 13.04.2020, 9.30 Uhr',
-                'orig_data_str': 'Aktuell 1547 bestätigte Coronafälle in der StädteRegion Aachen (davon 780 in der Stadt Aachen). 922 ehemals positiv auf das Corona-Virus getestete Personen sind inzwischen wieder gesund. Bislang 51 Todesfälle.'}]
+    results = fetch_and_parse_page_data()
 
     if results is None or len(results) == 0:
         flash("No data received")
