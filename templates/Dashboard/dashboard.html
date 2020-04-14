@@ -2,64 +2,21 @@
 
 {% block title %}Dashboard{% endblock %}
 
-{% block body %}
-    <h1> Dashboard</h1>
-    {% include "Dashboard/toppanel.html" %}
-
-    <div class="container-fluid">
-        <div class="row">
-            {% include "Dashboard/sidepanel.html" %}
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+{% block content %}
+    <div> <!--class="container-fluid">-->
+        <div> <!-- class="row">-->
+            <!--<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">-->
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Dashboard</h1>
                 </div>
 
                 {% include "Dashboard/graph.html" %}
 
-                <h2>Stats</h2>
-                <div class="text-muted">Difference of current numbers to last days numbers.</div>
-                {% if entries|length < 2 %}
-                <div class="text-muted">Insufficient Data</div>
-                {% else %}
-                <div class="card-deck">
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-header">
-                            <h4 class="my-0 font-weight-normal">New Cases Region</h4>
-                        </div>
-                        <div class="card-body">
-                            <h1 class="card-title pricing-card-title">{{ ((entries[-1].cases_region - entries[-2].cases_region)*100/entries[-2].cases_region)|round(2) }}% <small class="text-muted">({{ entries[-1].cases_region - entries[-2].cases_region }})</small></h1>
-                        </div>
-                    </div>
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-header">
-                            <h4 class="my-0 font-weight-normal">New Cases City</h4>
-                        </div>
-                        <div class="card-body">
-                            <h1 class="card-title pricing-card-title">{{ ((entries[-1].cases_city - entries[-2].cases_city)*100/entries[-2].cases_city)|round(2) }}% <small class="text-muted">({{ entries[-1].cases_city - entries[-2].cases_city }})</small></h1>
-                        </div>
-                    </div>
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-header">
-                            <h4 class="my-0 font-weight-normal">Recovered</h4>
-                        </div>
-                        <div class="card-body">
-                            <h1 class="card-title pricing-card-title">{{ ((entries[-1].recovered - entries[-2].recovered)*100/entries[-2].recovered)|round(2) }}% <small class="text-muted">({{ entries[-1].recovered - entries[-2].recovered }})</small></h1>
-                        </div>
-                    </div>
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-header">
-                            <h4 class="my-0 font-weight-normal">Deceased</h4>
-                        </div>
-                        <div class="card-body">
-                            <h1 class="card-title pricing-card-title">{{ ((entries[-1].deaths - entries[-2].deaths)*100/entries[-2].deaths)|round(2) }}% <small class="text-muted">({{ entries[-1].deaths - entries[-2].deaths }})</small></h1>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
+                {% include "Dashboard/statistics.html" %}
 
                 <h2>Current Cases</h2>
                 {% include "CaseDataEntry/common/table.html" %}
-            </main>
+            <!--</main>-->
         </div>
     </div>
 {% endblock %}
@@ -129,7 +86,11 @@
                     xAxes: [{
                         type: 'time',
                         time: {
-                            unit: 'day'
+                            tooltipFormat: 'YYYY-MM-DD HH:mm',
+                            unit: 'day',
+                            displayFormats: {
+                                day: 'DD MMM'
+                            }
                         },
                     }]
                 },

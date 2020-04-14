@@ -2,16 +2,22 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-{% block body %}
-    <div class="offset-2 col-8">
-    {% block content %}
 
-    {% endblock %}
+{% include "common/toppanel.html" %}
+
+<div class="container-fluid">
+    <div class="row">
+        {% include "common/sidepanel.html" %}
+
+         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+             {% block content %}{% endblock %}
+         </main>
     </div>
-{% endblock %}
+</div>
 
 {% block aferloaders %}
     {% include "afterloaders.html" %}

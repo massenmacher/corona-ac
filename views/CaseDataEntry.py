@@ -53,7 +53,7 @@ def add_csv():
                 raise e
                 return f"Could not add. BC: {e}", 500
 
-        return str(request.files)
+        return str(request.files) #TODO: Edit this
 
 
 @case_data.route('/cases/add', methods=['GET', 'POST'])
@@ -71,12 +71,11 @@ def add():
                 session = db_session()
                 session.add(entry)
                 session.commit()
-                return f"Added<br><a class='btn btn-info' href={url_for('dashboard.dashboard_home')}>Back to Dashboard</a>", 201
+                return render_template("simple_text.html", html=f"Added<br><a class='btn btn-info' href={url_for('dashboard.dashboard_home')}>Back to Dashboard</a>"), 201
 
             except Exception as e:
-                raise e
-                return f"Failed due to {e}", 500
+                return render_template("simple_text.html", html=f"Failed due to {e}"), 500
 
-        return "Failed. No Form data.", 400
+        return render_template("simple_text.html", html="Failed. No Form data."), 400
     else:
         return render_template("CaseDataEntry/add.html", form_fields=CaseDataEntry.metadata, now=datetime.now())

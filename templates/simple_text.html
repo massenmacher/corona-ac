@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block body %}
+    {% if html %}
+        {{ html }}
+    {% else %}
+        <a href="/" class="btn btn-info">Home</a>
+    {% endif %}
+{% endblock %}
