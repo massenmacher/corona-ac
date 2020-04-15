@@ -5,33 +5,55 @@ from datetime import datetime
 from flask import current_app as app
 
 def parse_data(date_str, content_str):
-    pattern = r"Aktuell (\d+) bestätigte Coronafälle in der StädteRegion Aachen \(davon (\d+) in der Stadt Aachen\). (\d+) ehemals positiv auf das Corona-Virus getestete Personen sind inzwischen wieder gesund\. Bislang (\d+) Todesfälle\."
+    pattern = r"(\d+)"
 
-    m = re.match(pattern, content_str)
+    m = re.findall(pattern, content_str)
 
-    if m is None:
-        return {}
+    if m is None or len(m) != 4:
+        print("No correct matches in ", content_str)
+        return None
 
-    reg, city, recov, dead = m.groups()
+    for match in m:
+        print(match)
+    reg, city, recov, dead = m
 
-    date_pattern = r"(\w+), (\d{1,2}).(\d{2}).(\d{4}), (\d{1,2})[:.](\d{2})"
-    m = re.match(date_pattern, date_str)
+    date_pattern = r"(\d{1,2}).[ ]?(\d{1,2}|\w*)[. ]?(\d{4}|), (\d{1,2}).(\d{2})"
+    m = re.findall(date_pattern, date_str)
     # print(date_str)
 
     ## print(reg, city, recov, dead)
 
-    if m is None:
-        return {}
+    if m is None or len(m) < 1:
+        print("No matches in ", date_str)
+        return None
 
-    _, day, month, year, hour, minute = m.groups()
+    day, month, year, hour, minute = m[0]
     ## print(year, month, day, hour, minute)
 
+    monthsmap = {
+        "April": 4,
+        "Mai": 5,
+        "Juni": 6,
+        "Juli": 7,
+        "August": 8,
+        "September": 9,
+        "Oktober": 10,
+        "Novemver": 11,
+        "Dezember": 12
+
+    }
+    if len(month) > 2:
+        month = monthsmap[month]
+
+    if len(year) == 0:
+        year = datetime.now().year
+
     date = datetime(
-        int(year),
-        int(month),
-        int(day),
-        int(hour),
-        int(minute)
+        year=int(year),
+        month=int(month),
+        day=int(day),
+        hour=int(hour),
+        minute=int(minute)
     )
 
     result = {
@@ -80,11 +102,12 @@ def fetch_and_parse_page_data():
                 text = nextNode.find('li')
                 parsed_data = parse_data(section.text, text.text)
 
-                results.append(parsed_data)
+                if parsed_data is not None:
+                    results.append(parsed_data)
                 # print("*****")
                 break
             else:
                 pass
 
-    ## print("Results", results)
+    print("Results", results)
     return results
