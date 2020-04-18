@@ -1,0 +1,17 @@
+{% macro start_cards() %}
+    <div class="card-deck">
+{% endmacro %}
+
+{% macro end_cards() %}
+    </div>
+{% endmacro %}
+
+{% macro add_card(card_title, card_content_title, card_content) %}
+    <div class="card mb-4 shadow-sm">
+        <h5 class="card-header card-title">{{ card_title }}</h5>
+        <div class="card-body">
+            <h5 class="card-title">{{ card_content_title }}</h5>
+            <div class="card-text">{{ card_content }}</div>
+        </div>
+    </div>
+{% endmacro %}

@@ -1,45 +1,31 @@
+{% import "common/Cards/Cards.html" as cards %}
+
 <h2>Statistics</h2>
+<h3>Overall</h3>
+{% if entries|length < 1 %}
+    <div class="text-muted">No data.</div>
+{% else %}
+    {{ cards.start_cards() }}
+    {{ cards.add_card("All Cases", entries[-1].cases_region) }}
+    {{ cards.add_card("Removed Cases", entries[-1].recovered + entries[-1].deaths, "Deceased + Recovered") }}
+    {{ cards.add_card("Active Cases", entries[-1].cases_region - entries[-1].recovered - entries[-1].deaths) }}
+    {{ cards.add_card("Deaths per Cases", ((100 * entries[-1].deaths / entries[-1].cases_region))|round(2)|string + " %") }}
+    {{ cards.end_cards() }}
+{% endif %}
 <h3>Previous Day</h3>
 <div class="text-muted">Difference of current numbers to last days numbers.</div>
 {% if entries|length < 2 %}
     <div class="text-muted">Insufficient Data</div>
 {% else %}
-    <div class="card-deck">
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">New Cases Region</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title pricing-card-title">{{ ((entries[-1].cases_region - entries[-2].cases_region)*100/entries[-2].cases_region)|round(2) }}%
-                    <small class="text-muted">({{ entries[-1].cases_region - entries[-2].cases_region }})</small></h1>
-            </div>
-        </div>
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">New Cases City</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title pricing-card-title">{{ ((entries[-1].cases_city - entries[-2].cases_city)*100/entries[-2].cases_city)|round(2) }}%
-                    <small class="text-muted">({{ entries[-1].cases_city - entries[-2].cases_city }})</small></h1>
-            </div>
-        </div>
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Recovered</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title pricing-card-title">{{ ((entries[-1].recovered - entries[-2].recovered)*100/entries[-2].recovered)|round(2) }}%
-                    <small class="text-muted">({{ entries[-1].recovered - entries[-2].recovered }})</small></h1>
-            </div>
-        </div>
-        <div class="card mb-4 shadow-sm">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Deceased</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title pricing-card-title">{{ ((entries[-1].deaths - entries[-2].deaths)*100/entries[-2].deaths)|round(2) }}%
-                    <small class="text-muted">({{ entries[-1].deaths - entries[-2].deaths }})</small></h1>
-            </div>
-        </div>
-    </div>
+    {{ cards.start_cards() }}
+    {% if entries|length > 3 %}
+        {{ cards.add_card("Growth Factor", ((entries[-1].cases_region - entries[-2].cases_region) / (entries[-2].cases_region - entries[-3].cases_region))|round(3)) }}
+    {% endif %}
+    {{ cards.add_card("New Cases (in Region)", ((entries[-1].cases_region - entries[-2].cases_region)*100/entries[-2].cases_region)|round()|string + ' %
+                    (' + (entries[-1].cases_region - entries[-2].cases_region)|string + ')') }}
+    {{ cards.add_card("New Cases (in City)",
+        ((entries[-1].cases_city - entries[-2].cases_city)*100/entries[-2].cases_city)|round(2)|string + ' % (' + (entries[-1].cases_city - entries[-2].cases_city)|string + ')') }}
+    {{ cards.add_card("New Recovered (in Region)",  ((entries[-1].recovered - entries[-2].recovered)*100/entries[-2].recovered)|round(2)|string + ' % (' + (entries[-1].recovered - entries[-2].recovered)|string + ')') }}
+    {{ cards.add_card("New Deceased (in Region)", ((entries[-1].deaths - entries[-2].deaths)*100/entries[-2].deaths)|round(2)|string + ' % (' + (entries[-1].deaths - entries[-2].deaths)|string + ')') }}
+    {{ cards.end_cards() }}
 {% endif %}
