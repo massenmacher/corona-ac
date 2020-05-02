@@ -10,6 +10,9 @@ dashboard = Blueprint("dashboard", __name__)
 def dashboard_home():
     query = db_session.query(CaseDataEntry)
     case_data_entries = query.order_by(asc(CaseDataEntry.timestamp)).all()
-    columns = [col.name for col in case_data_entries[0].__table__.columns]
+    if len(case_data_entries) > 0:
+        columns = [col.name for col in case_data_entries[0].__table__.columns]
+    else:
+        columns = []
 
     return render_template("Dashboard/dashboard.html", entries=case_data_entries, columns=columns)

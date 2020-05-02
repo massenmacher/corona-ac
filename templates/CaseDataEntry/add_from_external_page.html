@@ -14,33 +14,56 @@
                 <div class="form-row justify-content-between" style="margin-left: 0; margin-right: 0">
                     <label for="date">
                         Date
-                        <input name="date" class="form-control" type="date" value="{{ case["timestamp"].date() }}"
-                               required readonly/>
+                        <input name="date" class="form-control" type="date" required
+                                {% if case["timestamp"] %}
+                               value="{{ case["timestamp"].date() }}"
+                               readonly
+                                {% endif %}/>
                     </label>
                     <label for="time">
                         Time
-                        <input name="time" class="form-control" type="time"
-                               value="{{ case["timestamp"].strftime('%H:%M') }}" required readonly/>
+                        <input name="time" class="form-control" type="time" required
+                                {% if case["timestamp"] %}
+                               value="{{ case["timestamp"].strftime('%H:%M') }}"
+                               readonly
+                                {% endif %}
+                        />
                     </label>
                     <label>
                         Cases Region
-                        <input name="cases_reg" class="form-control" type="number" value="{{ case["cases_region"] }}"
-                               min=0 required readonly/>
+                        <input name="cases_reg" class="form-control" type="number"
+                               min=0 required
+                                {% if case["cases_region"] %}
+                               value="{{ case["cases_region"] }}"
+                               readonly
+                                {% endif %}/>
                     </label>
                     <label>
                         Cases City
-                        <input name="cases_city" class="form-control" type="number" value="{{ case["cases_city"] }}"
-                               min=0 required readonly/>
+                        <input name="cases_city" class="form-control" type="number"
+                               min=0 required
+                                {% if case["cases_city"] %}
+                               value="{{ case["cases_city"] }}"
+                               readonly
+                                {% endif %}/>
                     </label>
                     <label>
                         Deaths
-                        <input name="deceased" class="form-control" type="number" value="{{ case["deaths"] }}" min=0
-                               required readonly/>
+                        <input name="deceased" class="form-control" type="number" min=0
+                               required
+                                {% if case["deaths"] %}
+                               value="{{ case["deaths"] }}"
+                               readonly
+                                {% endif %}/>
                     </label>
                     <label>
                         Recovered
-                        <input name="recovered" class="form-control" type="number" value="{{ case["recovered"] }}" min=0
-                               readonly/>
+                        <input name="recovered" class="form-control" type="number" min=0
+                               required
+                                {% if case["recovered"] %}
+                               value="{{ case["recovered"] }}"
+                               readonly
+                                {% endif %}/>
                     </label>
                     <label for="submit">
                         &nbsp;

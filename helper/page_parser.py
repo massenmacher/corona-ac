@@ -9,13 +9,16 @@ def parse_data(date_str, content_str):
 
     m = re.findall(pattern, content_str)
 
-    if m is None or len(m) != 4:
+    if m is None or len(m) < 4:
         print("No correct matches in ", content_str)
         return None
+    elif len(m) > 4:
+        print("More items found please check...")
+        FLAG_WARN = True
 
     for match in m:
         print(match)
-    reg, city, recov, dead = m
+    reg, city, recov, dead, _ = m
 
     date_pattern = r"(\d{1,2}).[ ]?(\d{1,2}|\w*)[. ]?(\d{4}|), (\d{1,2}).(\d{2})"
     m = re.findall(date_pattern, date_str)
@@ -23,11 +26,12 @@ def parse_data(date_str, content_str):
 
     ## print(reg, city, recov, dead)
 
+    day, month, year, hour, minute = [None] * 5
+
     if m is None or len(m) < 1:
         print("No matches in ", date_str)
-        return None
-
-    day, month, year, hour, minute = m[0]
+    else:
+        day, month, year, hour, minute = m[0]
     ## print(year, month, day, hour, minute)
 
     monthsmap = {
@@ -42,19 +46,22 @@ def parse_data(date_str, content_str):
         "Dezember": 12
 
     }
-    if len(month) > 2:
+    if month is not None and len(month) > 2:
         month = monthsmap[month]
 
-    if len(year) == 0:
+    if year is not None and len(year) == 0:
         year = datetime.now().year
 
-    date = datetime(
-        year=int(year),
-        month=int(month),
-        day=int(day),
-        hour=int(hour),
-        minute=int(minute)
-    )
+    try:
+        date = datetime(
+            year=int(year),
+            month=int(month),
+            day=int(day),
+            hour=int(hour),
+            minute=int(minute)
+        )
+    except:
+        date = None
 
     result = {
         "timestamp": date,
