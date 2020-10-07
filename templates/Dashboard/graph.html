@@ -1,11 +1,53 @@
-{% macro graph(width=900, height=380) -%}
-    <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+{% macro graph(width=900, height=380, id='myChart') -%}
+    <canvas class="my-4 w-100" id="{{ id }}" width="900" height="380"></canvas>
 {%- endmacro %}
 
-{% macro js(entries) -%}
+{% macro js_aspect(entries, id='myChart', label="Label") -%}
+<script>
+    // Graphs
+    var ctx = document.getElementById('{{ id }}')
+    // eslint-disable-next-line no-unused-vars
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: "{{label}}",
+                data: [
+                    {% for (entry, ts) in entries %}
+                        {
+                            t: moment('{{ ts }}'),
+                            y: {{ entry }}
+                        },
+                    {% endfor %}
+                ],
+                backgroundColor: 'rgba(235, 155, 52, 0.5)',
+            },]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        tooltipFormat: 'YYYY-MM-DD HH:mm',
+                        unit: 'day',
+                        displayFormats: {
+                            day: 'DD MMM'
+                        }
+                    },
+                }]
+            },
+            legend: {
+                display: true
+            }
+        }
+    })
+</script>
+{%- endmacro -%}
+
+{% macro js(entries, id='myChart') -%}
     <script>
         // Graphs
-        var ctx = document.getElementById('myChart')
+        var ctx = document.getElementById('{{ id }}')
         // eslint-disable-next-line no-unused-vars
         var myChart = new Chart(ctx, {
             type: 'line',

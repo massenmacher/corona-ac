@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import "Dashboard/graph.html" as graph %}
+
+
+{% block title %}Dashboard - {{label}}{% endblock %}
+
+{% block content %}
+    <div> 
+        <div> 
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Dashboard - {{label}}</h1>
+            </div>
+
+            {{ graph.graph(id='active') }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block aferloaders %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/moment.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
+    {{ graph.js_aspect(entries, id='active', label=label) }}
+{% endblock %}
