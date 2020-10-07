@@ -5,24 +5,15 @@ from datetime import datetime
 from flask import current_app as app
 
 def parse_data(date_str, content_str):
-    pattern1 = r" (\d+)[ .|^\-]"
-    patter_kommunen = r"/(\d+)"
+    pattern_positives = r"(\d+) positive"
+    pattern_revocered = r"(\d+) ehemals"
+    pattern_deaths    = r"liegt bei (\d+)"
+    pattern_kommunen  = r"/(\d+)"
 
-    m = re.findall(pattern1, content_str)
-    m_kommunen = re.findall(patter_kommunen, content_str)
-
-    print(m)
-
-    if m is None or len(m) < 3:
-        print("No correct matches in for base data ", content_str)
-        return None
-    elif len(m) == 4:
-        # We have also given the count in the city (sometimes there...)
-        m.pop(1)
-    elif len(m) > 4:
-        print("More items found please check...")
-        m.pop(1)
-        FLAG_WARN = True
+    reg = re.findall(pattern_positives, content_str)[0]
+    recov = re.findall(pattern_revocered, content_str)[0]
+    dead = re.findall(pattern_deaths, content_str)[0]
+    m_kommunen = re.findall(pattern_kommunen, content_str)
 
     if m_kommunen is None or len(m_kommunen) < 10:
         print("No correct matches in for Kommunen data ", content_str)
@@ -33,10 +24,6 @@ def parse_data(date_str, content_str):
         print("More items found for Kommunen please check...")
         FLAG_WARN = True
 
-    for match in m:
-        print(match)
-
-    reg, recov, dead = m[:3]
     aachen, alsdorf, baesweiler, eschweiler, herzogenrath, monschau, roetgen, simmerath, stolberg, wuerselen, _ = m_kommunen[:11]
 
     date_pattern = r"(\d{1,2}).[ ]?(\d{1,2}|\w*)[. ]?(\d{4}|), (\d{1,2}).(\d{2})"

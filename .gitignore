@@ -6,3 +6,5 @@
 /static/*/*.map
 __pycache__
 /config/app_config.py
+.vscode
+.vscode
