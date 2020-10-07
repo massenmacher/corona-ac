@@ -5,11 +5,13 @@ from datetime import datetime
 from flask import current_app as app
 
 def parse_data(date_str, content_str):
-    pattern1 = r" (\d+) "
+    pattern1 = r" (\d+)[ .|^\-]"
     patter_kommunen = r"/(\d+)"
 
     m = re.findall(pattern1, content_str)
     m_kommunen = re.findall(patter_kommunen, content_str)
+
+    print(m)
 
     if m is None or len(m) < 3:
         print("No correct matches in for base data ", content_str)
@@ -19,6 +21,7 @@ def parse_data(date_str, content_str):
         m.pop(1)
     elif len(m) > 4:
         print("More items found please check...")
+        m.pop(1)
         FLAG_WARN = True
 
     if m_kommunen is None or len(m_kommunen) < 10:
@@ -33,8 +36,8 @@ def parse_data(date_str, content_str):
     for match in m:
         print(match)
 
-    reg, recov, dead = m
-    aachen, alsdorf, baesweiler, eschweiler, herzogenrath, monschau, roetgen, simmerath, stolberg, wuerselen, _ = m_kommunen
+    reg, recov, dead = m[:3]
+    aachen, alsdorf, baesweiler, eschweiler, herzogenrath, monschau, roetgen, simmerath, stolberg, wuerselen, _ = m_kommunen[:11]
 
     date_pattern = r"(\d{1,2}).[ ]?(\d{1,2}|\w*)[. ]?(\d{4}|), (\d{1,2}).(\d{2})"
     m = re.findall(date_pattern, date_str)
