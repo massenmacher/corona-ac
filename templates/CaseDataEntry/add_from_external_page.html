@@ -17,7 +17,6 @@
                         <input name="date" class="form-control" type="date" required
                                 {% if case["timestamp"] %}
                                value="{{ case["timestamp"].date() }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label for="time">
@@ -25,7 +24,6 @@
                         <input name="time" class="form-control" type="time" required
                                 {% if case["timestamp"] %}
                                value="{{ case["timestamp"].strftime('%H:%M') }}"
-                               readonly
                                 {% endif %}
                         />
                     </label>
@@ -35,7 +33,6 @@
                                min=0 required
                                 {% if case["cases_region"] %}
                                value="{{ case["cases_region"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label>
@@ -44,7 +41,6 @@
                                min=0 required
                                 {% if case["cases_city"] %}
                                value="{{ case["cases_city"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label>
@@ -53,7 +49,6 @@
                                required
                                 {% if case["deaths"] %}
                                value="{{ case["deaths"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label>
@@ -62,7 +57,6 @@
                                required
                                 {% if case["recovered"] %}
                                value="{{ case["recovered"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label>
@@ -71,7 +65,6 @@
                                required
                                 {% if case["alsdorf"] %}
                                value="{{ case["alsdorf"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label>
@@ -80,7 +73,6 @@
                                required
                                 {% if case["baesweiler"] %}
                                value="{{ case["baesweiler"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label>
@@ -89,7 +81,6 @@
                                required
                                 {% if case["eschweiler"] %}
                                value="{{ case["eschweiler"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label>
@@ -98,7 +89,6 @@
                                required
                                 {% if case["herzogenrath"] %}
                                value="{{ case["herzogenrath"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label>
@@ -107,7 +97,6 @@
                                required
                                 {% if case["monschau"] %}
                                value="{{ case["monschau"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label>
@@ -116,7 +105,6 @@
                                required
                                 {% if case["roetgen"] %}
                                value="{{ case["roetgen"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label>
@@ -125,7 +113,6 @@
                                required
                                 {% if case["simmerath"] %}
                                value="{{ case["simmerath"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label>
@@ -134,7 +121,6 @@
                                required
                                 {% if case["stolberg"] %}
                                value="{{ case["stolberg"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label>
@@ -143,7 +129,6 @@
                                required
                                 {% if case["wuerselen"] %}
                                value="{{ case["wuerselen"] }}"
-                               readonly
                                 {% endif %}/>
                     </label>
                     <label for="submit">

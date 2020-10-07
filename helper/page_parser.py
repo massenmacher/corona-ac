@@ -5,12 +5,12 @@ from datetime import datetime
 from flask import current_app as app
 
 def parse_data(date_str, content_str):
-    pattern_positives = r"(\d+) positive"
+    pattern_positives = r"(\d+) positive|nachgewiesen Infizierten auf (\d+)"
     pattern_revocered = r"(\d+) ehemals"
     pattern_deaths    = r"liegt bei (\d+)"
     pattern_kommunen  = r"/(\d+)"
 
-    reg = re.findall(pattern_positives, content_str)[0]
+    reg = "".join(re.findall(pattern_positives, content_str)[0])
     recov = re.findall(pattern_revocered, content_str)[0]
     dead = re.findall(pattern_deaths, content_str)[0]
     m_kommunen = re.findall(pattern_kommunen, content_str)
