@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Adding Cases from external source
+{% endblock %}
+
+{% block content %}
+    <h1>Add case data from text</h1>
+    <div class="data">
+        <form target="_blank" method="post" class="form" action="{{ url_for("case_data.fetch_via_text") }}">
+            <div class="form-group justify-content-between" style="margin-left: 0; margin-right: 0">
+                <label for="text">
+                    Text
+                    
+                </label>
+                <textarea name="text" class="form-control" rows="20" required ></textarea>
+            </div>
+            
+            <button name="submit" class="btn btn-primary form-control" type="submit">add</button>
+        </form>
+    </div>
+{% endblock %}

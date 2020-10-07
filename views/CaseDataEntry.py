@@ -5,7 +5,7 @@ import pandas as pd
 
 from models.Base import db
 from helper.debug_helper import flash_on_dev
-from helper.page_parser import fetch_and_parse_page_data
+from helper.page_parser import fetch_and_parse_page_data, parse_data
 from models.CaseDataEntry import CaseDataEntry
 
 case_data = Blueprint("case_data", __name__)
@@ -114,3 +114,28 @@ def fetch_from_page():
         return render_template("simple_text.html", text="No data found")
 
     return render_template("CaseDataEntry/add_from_external_page.html", data=results)
+
+@case_data.route("/cases/text", methods=["GET", "POST"])
+def fetch_via_text():
+    if request.method == "GET":
+        return render_template("CaseDataEntry/add_via_text.html")
+
+    else:
+        if request.form:
+            try:
+                date_text, content_text = request.form["text"].split("\n", maxsplit=1)
+                
+                result = parse_data(date_text, content_text)
+                print(result)
+
+                flash("Data successfully added.")
+
+                return render_template("CaseDataEntry/add_from_external_page.html", data=[result])
+
+            except Exception as e:
+                flash("An error occurred!", "error")
+                flash_on_dev(e, "error")
+
+                return render_template("simple_text.html", text=f"Could not add entry. Please try again!",
+                                       back_to=(url_for("case_data.add"), "Back to data entry")), 500
+

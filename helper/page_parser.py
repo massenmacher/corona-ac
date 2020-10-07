@@ -5,20 +5,33 @@ from datetime import datetime
 from flask import current_app as app
 
 def parse_data(date_str, content_str):
-    pattern = r"(\d+)"
+    pattern1 = r" (\d+) "
+    patter_kommunen = r"/(\d+)"
 
-    m = re.findall(pattern, content_str)
+    m = re.findall(pattern1, content_str)
+    m_kommunen = re.findall(patter_kommunen, content_str)
 
-    if m is None or len(m) < 4:
-        print("No correct matches in ", content_str)
+    if m is None or len(m) < 3:
+        print("No correct matches in for base data ", content_str)
         return None
-    elif len(m) > 4:
+    elif len(m) > 3:
         print("More items found please check...")
+        FLAG_WARN = True
+
+    if m_kommunen is None or len(m_kommunen) < 10:
+        print("No correct matches in for Kommunen data ", content_str)
+        return None
+    elif len(m_kommunen) == 10:
+        m_kommunen.append(None)
+    elif len(m_kommunen) > 11:
+        print("More items found for Kommunen please check...")
         FLAG_WARN = True
 
     for match in m:
         print(match)
-    reg, city, recov, dead, _ = m
+
+    reg, recov, dead = m
+    aachen, alsdorf, baesweiler, eschweiler, herzogenrath, monschau, roetgen, simmerath, stolberg, wuerselen, _ = m_kommunen
 
     date_pattern = r"(\d{1,2}).[ ]?(\d{1,2}|\w*)[. ]?(\d{4}|), (\d{1,2}).(\d{2})"
     m = re.findall(date_pattern, date_str)
@@ -66,11 +79,20 @@ def parse_data(date_str, content_str):
     result = {
         "timestamp": date,
         "cases_region": reg,
-        "cases_city": city,
+        "cases_city": aachen,
         "recovered": recov,
         "deaths": dead,
         "orig_date_str": date_str,
-        "orig_data_str": content_str
+        "orig_data_str": content_str,
+        "alsdorf": alsdorf,
+        "baesweiler": baesweiler,
+        "eschweiler": eschweiler,
+        "herzogenrath": herzogenrath,
+        "monschau": monschau,
+        "roetgen": roetgen,
+        "simmerath": simmerath,
+        "stolberg": stolberg,
+        "wuerselen": wuerselen
     }
     # # print(result)
     return result
