@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, TIMESTAMP
-from .Base import Base
+from .Base import db
 
-class CaseDataEntry(Base):
+class CaseDataEntry(db.Model):
     __tablename__ = 'cases_ac'
 
     id = Column(Integer, primary_key=True)
@@ -10,3 +10,12 @@ class CaseDataEntry(Base):
     deaths = Column(Integer)
     recovered = Column(Integer)
     timestamp = Column(TIMESTAMP, unique=True)
+    alsdorf = Column(Integer)
+    baesweiler = Column(Integer)
+    eschweiler = Column(Integer)
+    herzogenrath = Column(Integer)
+    monschau = Column(Integer)
+    roetgen = Column(Integer)
+    simmerath = Column(Integer)
+    stolberg = Column(Integer)
+    wuerselen = Column(Integer)
