@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, TIMESTAMP
-from .Base import Base
+from .Base import db
 
-class CaseDataEntry(Base):
+class CaseDataEntry(db.Model):
     __tablename__ = 'cases_ac'
 
     id = Column(Integer, primary_key=True)

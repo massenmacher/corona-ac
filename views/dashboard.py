@@ -1,10 +1,11 @@
 from flask import render_template, Blueprint, flash
 from sqlalchemy import asc
 
-from DB import db_session
+from models.Base import db
 from models.CaseDataEntry import CaseDataEntry
 
 dashboard = Blueprint("dashboard", __name__)
+db_session = db.session
 
 @dashboard.route("/")
 def dashboard_home():

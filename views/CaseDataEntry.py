@@ -3,13 +3,13 @@ from flask import render_template, Blueprint, request, url_for, flash, redirect
 from sqlalchemy import asc
 import pandas as pd
 
-from DB import db_session
+from models.Base import db
 from helper.debug_helper import flash_on_dev
 from helper.page_parser import fetch_and_parse_page_data
 from models.CaseDataEntry import CaseDataEntry
 
 case_data = Blueprint("case_data", __name__)
-
+db_session = db.session
 
 @case_data.route('/cases')
 def cases():
