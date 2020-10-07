@@ -43,16 +43,7 @@ def add_csv():
                         cases_city=row["Cases (City)"],
                         deaths=row["Deaths"],
                         recovered=row["Recovered"],
-                        timestamp=row["Date"],
-                        alsdorf=row["Alsdorf"],
-                        baesweiler=row["Baesweiler"],
-                        eschweiler=row["Eschweiler"],
-                        herzogenrath=row["Herzogenrath"],
-                        monschau=row["Monschau"],
-                        roetgen=row["Roetgen"],
-                        simmerath=row["Simmerath"],
-                        stolberg=row["Stolberg"],
-                        wuerselen=row["Wuerselen"]
+                        timestamp=row["Date"]
                     )
                     entries.append(entry)
 
