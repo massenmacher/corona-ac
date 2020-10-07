@@ -82,7 +82,16 @@ def add():
                     cases_city=request.form["cases_city"],
                     deaths=request.form["deceased"],
                     recovered=request.form["recovered"],
-                    timestamp=datetime.fromisoformat(f"{request.form['date']}T{request.form['time']}")
+                    timestamp=datetime.fromisoformat(f"{request.form['date']}T{request.form['time']}"),
+                    alsdorf=request.form["alsdorf"],
+                    baesweiler=request.form["baesweiler"],
+                    eschweiler=request.form["eschweiler"],
+                    herzogenrath=request.form["herzogenrath"],
+                    monschau=request.form["monschau"],
+                    roetgen=request.form["roetgen"],
+                    simmerath=request.form["simmerath"],
+                    stolberg=request.form["stolberg"],
+                    wuerselen=request.form["wuerselen"]
                 )
                 session = db_session()
                 session.add(entry)
