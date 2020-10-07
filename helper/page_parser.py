@@ -14,7 +14,10 @@ def parse_data(date_str, content_str):
     if m is None or len(m) < 3:
         print("No correct matches in for base data ", content_str)
         return None
-    elif len(m) > 3:
+    elif len(m) == 4:
+        # We have also given the count in the city (sometimes there...)
+        m.pop(1)
+    elif len(m) > 4:
         print("More items found please check...")
         FLAG_WARN = True
 
