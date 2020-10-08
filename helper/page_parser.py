@@ -8,7 +8,7 @@ def parse_data(date_str, content_str):
     pattern_positives = r"(\d+) positive|nachgewiesen Infizierten auf (\d+)"
     pattern_revocered = r"(\d+) ehemals"
     pattern_deaths    = r"liegt bei (\d+)"
-    pattern_kommunen  = r"/(\d+)"
+    pattern_kommunen  = r"/(\d+)[/\d+]?"
 
     reg = "".join(re.findall(pattern_positives, content_str)[0])
     recov = re.findall(pattern_revocered, content_str)[0]
