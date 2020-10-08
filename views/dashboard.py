@@ -1,5 +1,6 @@
 from flask import render_template, Blueprint, flash
 from sqlalchemy import asc
+import pandas as pd
 
 from models.Base import db
 from models.CaseDataEntry import CaseDataEntry
@@ -79,23 +80,17 @@ def dashboard_incidence():
     CITIZENS = 557026 # For Aachen city: 258816
 
     query = db_session.query(CaseDataEntry)
-    case_data_entries = query.order_by(asc(CaseDataEntry.timestamp)).all()
 
-    timestmp = list(map(lambda e: e.timestamp, case_data_entries))
-    infected = list(map(lambda e: e.cases_region, case_data_entries))
+    df = pd.read_sql_query(query.order_by(asc(CaseDataEntry.timestamp)).statement, db_session.bind)
+
+    df_diff = df.set_index("timestamp").sort_index(ascending=True).diff()
+
+    df_week_diff = df_diff.resample("1W")["cases_region"].sum()
     
-    infected.insert(0,0)
+    df_incidence = df_week_diff / (CITIZENS/100000)
 
-    new_cases = []
-    for i in range(len(case_data_entries)):
-        diff = infected[i+1] - infected[i]
-        new_cases.append(diff) 
-    
-    incidences = []
-    for i in range(7, len(case_data_entries)):
-        summed = sum(new_cases[i-7:i])/(CITIZENS/100000)
-        incidences.append((summed, timestmp[i]))
+    #print(df_incidence)
 
-    print(incidences)
+    incidences = [(value, index) for index, value in df_incidence.iteritems()]
 
     return render_template("Dashboard/aspect_graph.html", entries=incidences, label="7 Day Incidence")
