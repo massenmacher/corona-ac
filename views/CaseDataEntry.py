@@ -91,7 +91,8 @@ def add():
                     roetgen=request.form["roetgen"],
                     simmerath=request.form["simmerath"],
                     stolberg=request.form["stolberg"],
-                    wuerselen=request.form["wuerselen"]
+                    wuerselen=request.form["wuerselen"],
+                    not_associated=request.form["not_associated"]
                 )
                 session = db_session()
                 session.add(entry)

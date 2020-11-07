@@ -8,7 +8,7 @@ def parse_data(date_str, content_str):
     pattern_positives = r"(\d+) positive|nachgewiesen Infizierten auf (\d+)"
     pattern_revocered = r"(\d+) ehemals"
     pattern_deaths    = r"liegt bei (\d+)"
-    pattern_kommunen  = r"/(\d+)[/\d+]?"
+    pattern_kommunen  = r"\d+(/|\s{1,5})([\d]+)(/|\s{1,5})([\d]*)"
 
     reg = "".join(re.findall(pattern_positives, content_str)[0])
     recov = re.findall(pattern_revocered, content_str)[0]
@@ -20,11 +20,14 @@ def parse_data(date_str, content_str):
         return None
     elif len(m_kommunen) == 10:
         m_kommunen.append(None)
-    elif len(m_kommunen) > 11:
+        m_kommunen.append(None)
+    elif len(m_kommunen) == 11:
+        m_kommunen.insert(-1, None)
+    elif len(m_kommunen) > 12:
         print("More items found for Kommunen please check...")
         FLAG_WARN = True
 
-    aachen, alsdorf, baesweiler, eschweiler, herzogenrath, monschau, roetgen, simmerath, stolberg, wuerselen, _ = m_kommunen[:11]
+    aachen, alsdorf, baesweiler, eschweiler, herzogenrath, monschau, roetgen, simmerath, stolberg, wuerselen, not_associated, _ = list(map(lambda e: e[1], m_kommunen[:12]))
 
     date_pattern = r"(\d{1,2}).[ ]?(\d{1,2}|\w*)[. ]?(\d{4}|), (\d{1,2}).(\d{2})"
     m = re.findall(date_pattern, date_str)
@@ -41,6 +44,9 @@ def parse_data(date_str, content_str):
     ## print(year, month, day, hour, minute)
 
     monthsmap = {
+        "Januar": 1,
+        "Februar": 2,
+        "März": 3,
         "April": 4,
         "Mai": 5,
         "Juni": 6,
@@ -48,7 +54,7 @@ def parse_data(date_str, content_str):
         "August": 8,
         "September": 9,
         "Oktober": 10,
-        "Novemver": 11,
+        "November": 11,
         "Dezember": 12
 
     }
@@ -85,7 +91,8 @@ def parse_data(date_str, content_str):
         "roetgen": roetgen,
         "simmerath": simmerath,
         "stolberg": stolberg,
-        "wuerselen": wuerselen
+        "wuerselen": wuerselen,
+        "not_associated": not_associated
     }
     # # print(result)
     return result

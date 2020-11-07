@@ -131,6 +131,14 @@
                                value="{{ case["wuerselen"] }}"
                                 {% endif %}/>
                     </label>
+                    <label>
+                        not located
+                        <input name="not_associated" class="form-control" type="number" min=0
+                               required
+                                {% if case["not_associated"] %}
+                               value="{{ case["not_associated"] }}"
+                                {% endif %}/>
+                    </label>
                     <label for="submit">
                         &nbsp;
                         <button name="submit" class="btn btn-primary form-control" type="submit">add</button>

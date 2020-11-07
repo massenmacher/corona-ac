@@ -19,3 +19,4 @@ class CaseDataEntry(db.Model):
     simmerath = Column(Integer)
     stolberg = Column(Integer)
     wuerselen = Column(Integer)
+    not_associated = Column(Integer)

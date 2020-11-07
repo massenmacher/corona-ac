@@ -75,6 +75,7 @@ def dashboard_newcases_meanday():
 
     return render_template("Dashboard/aspect_graph.html", entries=new_cases, label="New Cases")
 
+
 @dashboard.route("/incidence")
 def dashboard_incidence():
     CITIZENS = 557026 # For Aachen city: 258816
@@ -86,6 +87,27 @@ def dashboard_incidence():
     df_diff = df.set_index("timestamp").sort_index(ascending=True).diff()
 
     df_week_diff = df_diff.resample("1W")["cases_region"].sum()
+    
+    df_incidence = df_week_diff / (CITIZENS/100000)
+
+    #print(df_incidence)
+
+    incidences = [(value, index) for index, value in df_incidence.iteritems()]
+
+    return render_template("Dashboard/aspect_graph.html", entries=incidences, label="7 Day Incidence")
+
+
+@dashboard.route("/incidence/city")
+def dashboard_incidence_city():
+    CITIZENS = 258816
+
+    query = db_session.query(CaseDataEntry)
+
+    df = pd.read_sql_query(query.order_by(asc(CaseDataEntry.timestamp)).statement, db_session.bind)
+
+    df_diff = df.set_index("timestamp").sort_index(ascending=True).diff()
+
+    df_week_diff = df_diff.resample("1W")["cases_city"].sum()
     
     df_incidence = df_week_diff / (CITIZENS/100000)
 
