@@ -7,7 +7,7 @@ from flask import current_app as app
 def parse_data(date_str, content_str):
     pattern_positives = r"(\d+) positive|nachgewiesen Infizierten auf (\d+)"
     pattern_revocered = r"(\d+) ehemals"
-    pattern_deaths    = r"liegt bei (\d+)"
+    pattern_deaths    = r"liegt[ nun]* bei (\d+)"
     pattern_kommunen  = r"\d+(/|\s{1,5})([\d]+)(/|\s{1,5})([\d]*)"
 
     reg = "".join(re.findall(pattern_positives, content_str)[0])
